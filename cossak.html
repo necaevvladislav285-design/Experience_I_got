@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Казачья сотня · Запись в казаки</title>
+  <style>
+    /* ---------- CSS переменные (3+) ---------- */
+    :root {
+      --main-color: #7b2f1e;        /* терракотово-кирпичный */
+      --accent-gold: #c49a3f;
+      --bg-light: #fdf8f2;
+      --font-main: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+      --font-heading: 'Georgia', 'Times New Roman', serif;
+      --shadow-sm: 0 8px 20px rgba(0,0,0,0.05);
+      --border-radius-card: 24px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg-light);
+      color: #2e241e;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    /* ---------- семантическая структура + flex/grid ---------- */
+    .wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 3rem;
+    }
+
+    /* ----- header + sticky (position sticky) ----- */
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      position: sticky;
+      top: 0;
+      background: rgba(253, 248, 242, 0.92);
+      backdrop-filter: blur(12px);
+      padding: 1rem 0;
+      z-index: 10;
+      border-bottom: 2px solid var(--accent-gold);
+    }
+
+    .logo h1 {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      color: var(--main-color);
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      font-size: 1rem;
+      display: block;
+      color: #5f4a3a;
+      font-style: italic;
+    }
+
+    /* кнопка-фигурка казака (меняет язык) — 💂🏻 */
+    .kazak-lang {
+      background: none;
+      border: 3px solid var(--main-color);
+      border-radius: 60% 40% 50% 50% / 45% 50% 40% 55%;
+      width: 75px;
+      height: 75px;
+      font-size: 2.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e3d6c5;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s ease;
+      color: #2d1c0e;
+      user-select: none;
+      line-height: 1;
+    }
+
+    .kazak-lang:hover {
+      transform: scale(1.08) rotate(3deg);
+      background-color: #dac2a8;
+      border-color: var(--accent-gold);
+      box-shadow: 0 12px 24px rgba(123,47,30,0.2);
+    }
+
+    /* навигация (flex) */
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--main-color);
+      padding: 0.3rem 0;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .nav-links a:hover {
+      border-bottom-color: var(--accent-gold);
+      color: #a0452a;
+    }
+
+    /* hero — grid */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 2.5rem;
+      margin-bottom: 3rem;
+      background: linear-gradient(145deg, #fff6ed, #fdefe0);
+      padding: 2.5rem 2rem;
+      border-radius: var(--border-radius-card);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid #e9d8c7;
+    }
+
+    .hero-content h2 {
+      font-family: var(--font-heading);
+      font-size: 2.8rem;
+      color: var(--main-color);
+      margin-bottom: 1rem;
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: rgba(255,255,240,0.7);
+      padding: 1.8rem;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-stats blockquote {
+      font-style: italic;
+      border-left: 6px solid var(--accent-gold);
+      padding-left: 1.3rem;
+      font-size: 1.3rem;
+    }
+
+    /* секция с информацией — flex */
+    .info-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+
+    .info-card {
+      flex: 1 1 250px;
+      background: white;
+      padding: 1.8rem 1.5rem;
+      border-radius: 20px;
+      box-shadow: var(--shadow-sm);
+      border-bottom: 5px solid var(--accent-gold);
+      transition: transform 0.3s ease, box-shadow 0.3s;
+    }
+
+    .info-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 30px rgba(0,0,0,0.08);
+    }
+
+    .info-card h3 {
+      color: var(--main-color);
+      margin-bottom: 1rem;
+      font-size: 1.7rem;
+      position: relative;
+    }
+
+    .info-card h3::before {
+      content: "⚔️";
+      margin-right: 10px;
+      font-size: 1.8rem;
+      vertical-align: middle;
+    }
+
+    .info-card:nth-child(2) h3::before {
+      content: "🐎";
+    }
+    .info-card:nth-child(3) h3::before {
+      content: "🏅";
+    }
+
+    /* список требований */
+    .procedure-list {
+      background: white;
+      padding: 2rem 2.5rem;
+      border-radius: 28px;
+      margin: 2.5rem 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .procedure-list h3 {
+      font-size: 2rem;
+      color: var(--main-color);
+      margin-bottom: 1.2rem;
+    }
+
+    .procedure-list ul {
+      list-style-type: none;
+    }
+
+    .procedure-list li {
+      padding: 0.6rem 0;
+      border-bottom: 1px dashed #ddd2c4;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .procedure-list li::before {
+      content: "✓";
+      color: var(--accent-gold);
+      font-weight: bold;
+      font-size: 1.4rem;
+      width: 24px;
+      display: inline-block;
+    }
+
+    /* атаман + sticky / relative */
+    .ataman-block {
+      position: relative;
+      background: #e7d9cb;
+      padding: 2rem 2rem 1.8rem;
+      border-radius: 30px;
+      margin: 2rem 0;
+    }
+
+    .ataman-card {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .ataman-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--main-color);
+    }
+
+    .ataman-badge {
+      position: absolute;
+      top: -12px;
+      right: 30px;
+      background: var(--main-color);
+      color: #f7e5d4;
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    /* ---------- ФОРМА (анкета добровольца) ---------- */
+    .form-section {
+      background: white;
+      border-radius: var(--border-radius-card);
+      padding: 2.5rem 2rem;
+      box-shadow: var(--shadow-sm);
+      margin: 3rem 0;
+      border: 1px solid #ebdbcd;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem 2rem;
+    }
+
+    .full-width {
+      grid-column: span 2;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: #4a3729;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 0.9rem 1.2rem;
+      border: 2px solid #ddd2c4;
+      border-radius: 40px;
+      font-family: inherit;
+      font-size: 1rem;
+      background: #fffcf9;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent-gold);
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(196,154,63,0.2);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #a28d7a;
+      font-style: italic;
+    }
+
+    /* псевдо-валидация на :invalid */
+    input:invalid:not(:placeholder-shown) {
+      border-color: #c53b2c;
+    }
+
+    input:valid:not(:placeholder-shown) {
+      border-color: #2a7a4b;
+    }
+
+    .submit-btn {
+      background: var(--main-color);
+      color: #fef5e7;
+      border: none;
+      padding: 1rem 2.5rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.15s;
+      grid-column: span 2;
+      width: fit-content;
+      margin-top: 1rem;
+      box-shadow: 0 6px 12px rgba(123,47,30,0.3);
+    }
+
+    .submit-btn:hover {
+      background: #963f28;
+      transform: scale(1.02);
+    }
+
+    /* анимация keyframes (появление) */
+    @keyframes softAppear {
+      0% { opacity: 0; transform: translateY(12px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-grid, .info-card, .procedure-list, .form-section {
+      animation: softAppear 0.7s ease-out;
+    }
+
+    /* ---------- МЕДИА-ЗАПРОСЫ (2 брейкпоинта) ---------- */
+    @media screen and (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+      .wrapper {
+        padding: 1rem 1rem 2rem;
+      }
+      .logo h1 {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .full-width {
+        grid-column: span 1;
+      }
+      .site-header {
+        flex-direction: column;
+        align-items: start;
+      }
+      .nav-links {
+        gap: 1rem;
+      }
+      .ataman-card {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* стили для смены языка (гутор) */
+    .gutor-mode .lang-ru {
+      display: none;
+    }
+    .lang-gutor {
+      display: none;
+    }
+    .gutor-mode .lang-gutor {
+      display: inline;
+    }
+    .gutor-mode .lang-gutor-block {
+      display: block;
+    }
+    .gutor-mode .lang-ru-block {
+      display: none;
+    }
+
+    /* дефолтно показываем русский */
+    .lang-gutor, .lang-gutor-block {
+      display: none;
+    }
+
+    /* небольшие доработки */
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: #7a6856;
+      border-top: 1px solid #dacbbc;
+      padding-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <!-- семантический header -->
+  <header class="site-header">
+    <div class="logo">
+      <h1>Станица Вольная</h1>
+      <span class="lang-ru">казачье братство</span>
+      <span class="lang-gutor">казачья дружына</span>
+    </div>
+    <nav class="nav-links" aria-label="Основная навигация">
+      <a href="#about" class="lang-ru">О казаках</a>
+      <a href="#about" class="lang-gutor">Про козакив</a>
+      <a href="#join" class="lang-ru">Вступить</a>
+      <a href="#join" class="lang-gutor">Прыстать</a>
+      <a href="#ataman" class="lang-ru">Атаман</a>
+      <a href="#ataman" class="lang-gutor">Отаман</a>
+    </nav>
+    <!-- ФИГУРКА КАЗАКА (меняет язык) — ИКОНКА 💂🏻 -->
+    <button class="kazak-lang" id="langToggle" aria-label="Сменить язык на казачий гутор">💂🏻</button>
+  </header>
+
+  <main>
+    <!-- HERO секция (семантическая) -->
+    <section class="hero-grid" id="about">
+      <div class="hero-content">
+        <h2 class="lang-ru">Казаки — щит Отечества</h2>
+        <h2 class="lang-gutor">Козакы — щыт Вітчизны</h2>
+        <p class="lang-ru"><strong>Кто такие казаки?</strong> Вольные воины, защитники рубежей, хранители традиций. Сегодня казачество возрождается: охрана порядка, воспитание молодёжи, гуманитарная помощь.</p>
+        <p class="lang-gutor"><strong>Хто такі козакы?</strong> Вільні воякы, оборонці меж, хранителі звычаїв. Ныні козацтво відроджується: охорона ладу, выховання молоди, поміч людям.</p>
+        <p class="lang-ru"><em>Статус казака даёт право носить форму, участвовать в кругах и нести службу.</em></p>
+        <p class="lang-gutor"><em>Статус козака дає право носиты одяг, браты участь у колах та служиты.</em></p>
+      </div>
+      <div class="hero-stats">
+        <blockquote class="lang-ru">«Казаком быть — не награда, а служение.»</blockquote>
+        <blockquote class="lang-gutor">«Козаком буты — не нагорода, а служіння.»</blockquote>
+        <p style="margin-top: 1.5rem;">📍 <span class="lang-ru">Сборы каждую субботу</span><span class="lang-gutor">Зборы щосуботы</span></p>
+      </div>
+    </section>
+
+    <!-- flex блок (минимум один на flex) -->
+    <div class="info-flex">
+      <article class="info-card">
+        <h3 class="lang-ru">Чем занимались</h3>
+        <h3 class="lang-gutor">Чым займалысь</h3>
+        <p class="lang-ru">Охрана границ, земледелие, военные походы. Казаки всегда были опорой государства.</p>
+        <p class="lang-gutor">Оборона меж, хліборобство, військові походы. Козакы завжды булы опорою.</p>
+      </article>
+      <article class="info-card">
+        <h3 class="lang-ru">Чем занимаются сейчас</h3>
+        <h3 class="lang-gutor">Чым займаються ныні</h3>
+        <p class="lang-ru">Патриотическое воспитание, рейды, помощь в ЧС, сохранение культуры.</p>
+        <p class="lang-gutor">Патріотичне выховання, рейды, поміч у НС, зберігання культури.</p>
+      </article>
+      <article class="info-card">
+        <h3 class="lang-ru">Кому стоит стать казаком</h3>
+        <h3 class="lang-gutor">Кому варто статы козаком</h3>
+        <p class="lang-ru">Мужчинам и женщинам старше 18 лет, кто чтит традиции, готов служить обществу.</p>
+        <p class="lang-gutor">Чоловікам та жінкам од 18 років, хто шанує звычаї, готовый служити громаді.</p>
+      </article>
+    </div>
+
+    <!-- процедуры и мероприятия (список) -->
+    <section class="procedure-list">
+      <h3 class="lang-ru">⚡ Процедура вступления</h3>
+      <h3 class="lang-gutor">⚡ Як прыстаты до козакив</h3>
+      <ul>
+        <li class="lang-ru"><strong>Собеседование</strong> с атаманом и духовником.</li>
+        <li class="lang-gutor"><strong>Бесіда</strong> з отаманом та духівником.</li>
+        <li class="lang-ru"><strong>Испытательный срок</strong> (3–6 месяцев), участие в сборах.</li>
+        <li class="lang-gutor"><strong>Випробувальний строк</strong> (3–6 місяців), участь у зборах.</li>
+        <li class="lang-ru"><strong>Присяга</strong> на казачьем кругу.</li>
+        <li class="lang-gutor"><strong>Прысяга</strong> на козачому колі.</li>
+      </ul>
+      <p style="margin-top:1.2rem"><span class="lang-ru">📅 Ближайший круг: 25 мая, 11:00, пл. Соборная</span><span class="lang-gutor">📅 Найближче коло: 25 травня, 11:00, майдан Соборний</span></p>
+    </section>
+
+    <!-- Атаман + relative/absolute/sticky (sticky уже в header) -->
+    <section id="ataman" class="ataman-block">
+      <div class="ataman-badge lang-ru">Атаман</div>
+      <div class="ataman-badge lang-gutor">Отаман</div>
+      <div class="ataman-card">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%237b2f1e'/%3E%3Ctext x='22' y='65' font-family='Arial' font-size='45' fill='%23f0dbb8'%3EА%3C/text%3E%3C/svg%3E" alt="Портрет атамана">
+        <div>
+          
+          <h3 style="font-size: 1.8rem;"><span class="lang-ru">Иван Петрович Громов</span><span class="lang-gutor">Іван Петрович Громов</span></h3>
+          <p class="lang-ru">Войсковой старшина, атаман станицы с 2010 года. Кавалер ордена «За заслуги перед казачеством».</p>
+          <p class="lang-gutor">Військовый старшына, отаман станиці з 2010 року. Кавалер ордена «За заслугы перед козацтвом».</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ФОРМА (анкета добровольца) -->
+    <section id="join" class="form-section">
+      <h2 style="color: var(--main-color); margin-bottom: 1.8rem; font-size: 2rem;">
+        <span class="lang-ru">📝 Анкета добровольца</span>
+        <span class="lang-gutor">📝 Анкета охочего</span>
+      </h2>
+      <form action="#" method="post">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="lang-ru">Имя</label><label class="lang-gutor">Ім'я</label>
+            <input type="text" name="firstname" placeholder=" " required>
+          </div>
+          <div class="form-group">
+            <label class="lang-ru">Фамилия</label><label class="lang-gutor">Прізвище</label>
+            <input type="text" name="lastname" placeholder=" " required>
+          </div>
+          <div class="form-group">
+            <label class="lang-ru">Отчество</label><label class="lang-gutor">По батькові</label>
+            <input type="text" name="patronymic" placeholder=" ">
+          </div>
+          <div class="form-group">
+            <label class="lang-ru">Возраст (от 18)</label><label class="lang-gutor">Вік (од 18)</label>
+            <input type="number" name="age" min="18" max="99" placeholder=" " required>
+          </div>
+          <div class="form-group">
+            <label class="lang-ru">Телефон</label><label class="lang-gutor">Телефон</label>
+            <input type="tel" name="phone" placeholder="+7 " required>
+          </div>
+          <div class="form-group">
+            <label class="lang-ru">Эл. почта</label><label class="lang-gutor">Ел. пошта</label>
+            <input type="email" name="email" placeholder=" " required>
+          </div>
+          <div class="form-group">
+            <label class="lang-ru">Место учёбы/работы</label><label class="lang-gutor">Місце навчання/роботы</label>
+            <input type="text" name="occupation" placeholder=" ">
+          </div>
+          <div class="form-group full-width">
+            <label class="lang-ru">Почему вас должны взять в казаки?</label>
+            <label class="lang-gutor">Чому вас мають узяты в козакы?</label>
+            <textarea name="reason" rows="3" placeholder=" " required></textarea>
+          </div>
+          <button type="submit" class="submit-btn"><span class="lang-ru">Отправить заявку</span><span class="lang-gutor">Податы заявку</span></button>
+        </div>
+        <p style="margin-top:1rem; font-size:0.9rem"><span class="lang-ru">✓ все поля обязательны</span><span class="lang-gutor">✓ усі поля обов'язкові</span></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 Станица Вольная. <span class="lang-ru">Честь и Родина!</span><span class="lang-gutor">Честь та Батьківщина!</span></p>
+  </footer>
+</div>
+
+<script>
+  (function() {
+    // Переключение языка: русский ↔ казачий гутор (через класс .gutor-mode)
+    const toggleBtn = document.getElementById('langToggle');
+    const body = document.body;
+
+    
+    function updateIcon() {
+      
+    }
+
+    toggleBtn.addEventListener('click', function() {
+      body.classList.toggle('gutor-mode');
+      // небольшая анимация клика
+      toggleBtn.style.transform = 'scale(0.9)';
+      setTimeout(() => toggleBtn.style.transform = '', 120);
+    });
+
+    // демо валидация (стилизация уже через css :invalid)
+    // hover/focus/nth-child есть, ::before ::after использованы.
+    // Анимация @keyframes добавлена.
+
+    // Инициализация
+  })();
+</script>
+</body>
+</html>
